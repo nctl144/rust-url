@@ -28,9 +28,9 @@ fn main() {
 
     let urls: Vec<String> = lines_from_file(filename);
 
-    // for link in urls {
+    for link in urls {
 
-        let _issue_list_url = Url::parse("http://банки.рф")
+        let _issue_list_url = Url::parse(&link)
             .expect("Error while handlding the issue_list_url");
 
 
@@ -46,5 +46,5 @@ fn main() {
         // println!("fragment {:?}", issue_list_url.fragment()); // None
         // // println!(!issue_list_url.cannot_be_a_base());
 
-    // }
+    }
 }
