@@ -3,6 +3,7 @@ extern crate time;
 
 use url::{Url, Host};
 use std::fs::File;
+use time::{Duration, PreciseTime};
 
 use std::io::Read;
 
@@ -26,18 +27,19 @@ fn main() {
     // --snip--
     let filename = "urls.txt";
 
-    let urls: Vec<String> = lines_from_file(filename);
+    let mut totaltime = 0;
 
-    for link in urls {
-
+    for link in lines_from_file(filename) {
+        let start = PreciseTime::now();
         let _issue_list_url = Url::parse(&link)
             .expect("Error while handlding the issue_list_url");
 
-
+        let end = PreciseTime::now();
+        // println!("base url {}", link);
         // println!("scheme {}", issue_list_url.scheme()); // https
         // println!("username {:?}", issue_list_url.username()); // ''
         // println!("password {:?}", issue_list_url.password()); // None
-        println!("hoststr {:?}", _issue_list_url.host_str()); // Some("github.com")
+        // println!("hoststr {:?}", _issue_list_url.host_str()); // Some("github.com")
         // println!("host {:?}", issue_list_url.host()); // Some(Host::Domain("github.com")
         // println!("port {:?}", issue_list_url.port()); // None
         // println!("path {}", issue_list_url.path()); // "/rust-lang/rust/issues"
@@ -45,6 +47,8 @@ fn main() {
         // println!("query {:?}", issue_list_url.query()); // Some("labels=E-easy&state=open")
         // println!("fragment {:?}", issue_list_url.fragment()); // None
         // // println!(!issue_list_url.cannot_be_a_base());
-
+        totaltime += start.to(end).num_microseconds().unwrap();
     }
+
+    println!("Total execution time: {}", totaltime); // 16 seconds
 }
